@@ -1,3 +1,5 @@
+generatePlots = function(myFilePath) {
+
 ## with only age as variable 
 
 #step 1: reads in files and parses for genus level taxa, lognormalizes files
@@ -6,7 +8,7 @@
 ## shannon div and richness analysis and plots...
 
 #import all files from one file input (filepaths, cohort names as columns)
-raw_q2021_filespaths = read.table("/Users/anhil/Desktop/q2021_filepaths.txt", header = TRUE, sep = "\t")
+raw_q2021_filespaths = read.table(myFilePath, header = TRUE, sep = "\t")
 raw_q2021_files = list()
 
 for(i in 1:nrow(raw_q2021_filespaths)) {
@@ -169,6 +171,7 @@ for(i in 1:11){
   dev.off()
 }
 
+}
 
 ##_________________________________________________
 

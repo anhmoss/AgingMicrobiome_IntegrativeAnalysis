@@ -1,7 +1,9 @@
 ## with only age as variable 
 
-#step 1: reads in files and parses through for genus 
-#step 2: run stats test, power analysis
+#step 1: reads in files and parses for genus level taxa, lognormalizes files
+#step 2: runs the following tests/analysis:
+## stats test(parametric and nonparametric), kendall corr pvalue histograms, power analysis and plots, pcoa and permanova analysis and plots, 
+## shannon div and richness analysis and plots...
 
 #import all files from one file input (filepaths, cohort names as columns)
 raw_q2021_filespaths = read.table("/Users/anhil/Desktop/q2021_filepaths.txt", header = TRUE, sep = "\t")

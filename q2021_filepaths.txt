@@ -1,0 +1,12 @@
+FilePath	StudyName
+/Users/anhil/Desktop/q2021/rawCounts_morgan.txt	Morgan
+/Users/anhil/Desktop/q2021/rawCounts_zellerfrance.txt	ZellerFrance
+/Users/anhil/Desktop/q2021/rawCounts_zellergermany.txt	ZellerGermany
+/Users/anhil/Desktop/q2021/rawCounts_baxter.txt	Baxter
+/Users/anhil/Desktop/q2021/rawCounts_escobar.txt	Escobar
+/Users/anhil/Desktop/q2021/rawCounts_gloor.txt	Gloor
+/Users/anhil/Desktop/q2021/rawCounts_goodrich.txt	Goodrich
+/Users/anhil/Desktop/q2021/rawCounts_nogbcn0.txt	NogBCN0
+/Users/anhil/Desktop/q2021/rawCounts_nogstk.txt	NogSTK
+/Users/anhil/Desktop/q2021/rawCounts_ross.txt	Ross
+/Users/anhil/Desktop/q2021/rawCounts_agp.txt	AGP

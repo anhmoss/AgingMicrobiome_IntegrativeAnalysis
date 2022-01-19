@@ -1,0 +1,11 @@
+FilePath	StudyName
+/Users/anhil/Desktop/genderMetadata/morgan_ageGender.txt	Morgan
+/Users/anhil/Desktop/genderMetadata/zellerfrance_ageGender.txt	ZellerFrance
+/Users/anhil/Desktop/genderMetadata/zellergermany_ageGender.txt	ZellerGermany
+/Users/anhil/Desktop/genderMetadata/baxter_ageGender.txt	Baxter
+/Users/anhil/Desktop/genderMetadata/escobar_ageGender.txt	Escobar
+/Users/anhil/Desktop/genderMetadata/gloor_ageGender.txt	Gloor
+/Users/anhil/Desktop/genderMetadata/goodrich_ageGender.txt	Goodrich
+/Users/anhil/Desktop/genderMetadata/nogbcn0_ageGender.txt	NogBCN0
+/Users/anhil/Desktop/genderMetadata/nogstk_ageGender.txt	NogSTK
+/Users/anhil/Desktop/genderMetadata/ross_ageGender.txt	Ross

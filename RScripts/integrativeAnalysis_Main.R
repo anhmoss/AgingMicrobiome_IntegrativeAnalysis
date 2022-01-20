@@ -1,4 +1,4 @@
-generatePlots = function(myFilePath) {
+generatePlots = function(myFilePath, resultDirPath) {
 
 ## with only age as variable 
 
@@ -81,7 +81,7 @@ for(i in 1:11){
   
   #plot age v richness
   
-  jpeg(paste0("/Users/anhil/Desktop/figures_jan10/", coh_l[[i]], "_Richness_Age_scatterplots.jpeg"))
+  jpeg(paste0(resultDirPath, coh_l[[i]], "_Richness_Age_scatterplots.jpeg"))
   if(kcorr_agevrichness$p.value <0.05)
   { plot(age_meta, richness_result,
          xlab= "Age",
@@ -100,7 +100,7 @@ for(i in 1:11){
   dev.off()
   
   #plot age v shannon div
-  jpeg(paste0("/Users/anhil/Desktop/figures_jan10/", coh_l[[i]], "_ShannonDiv_Age_scatterplots.jpeg"))
+  jpeg(paste0(resultDirPath, coh_l[[i]], "_ShannonDiv_Age_scatterplots.jpeg"))
   
   if(kcorr_agevshannondiv$p.value <0.05)
   { plot(age_meta, shannondiv_result,
@@ -136,7 +136,7 @@ for(i in 1:11){
   permanovaResult_cohorts_matrix[i,3] = permanovaR2_indivCohort 
   
   #plot age v MDS1 and MDS2 scatterplots 
-  jpeg(paste0("/Users/anhil/Desktop/figures_jan10/", coh_l[[i]], "_AgevMDS1_scatterplots.jpeg"))
+  jpeg(paste0(resultDirPath, coh_l[[i]], "_AgevMDS1_scatterplots.jpeg"))
   if(kcorr_agevMDS1$p.value < 0.05) 
   { plot(age_meta, pcoa_indivCohort$CA$u[,1],
          xlab = "Age",
@@ -153,7 +153,7 @@ for(i in 1:11){
                                                                           xlim = c(0,115),col=myPlotColors[i])}
   dev.off()
   
-  jpeg(paste0("/Users/anhil/Desktop/figures_jan10/", coh_l[[i]], "_AgevMDS2_scatterplots.jpeg"))
+  jpeg(paste0(resultDirPath, coh_l[[i]], "_AgevMDS2_scatterplots.jpeg"))
   if(kcorr_agevMDS2$p.value < 0.05) 
   { plot(age_meta, pcoa_indivCohort$CA$u[,2],
          xlab = "Age",

@@ -4,8 +4,8 @@ stat_correlation_function= function(counts, age, corrMethod) {
   
   statResults = matrix(nrow=ncol(counts), ncol=4)
   simple_corrTest = NULL
-  # taxadf = data.frame(counts)
-  #run lm and obtain stat and pval
+
+  #run corr test and obtain stat and pval
   for(i in 1:ncol(counts))
   {
     simple_corrTest = cor.test(age, counts[,i], method=corrMethod)

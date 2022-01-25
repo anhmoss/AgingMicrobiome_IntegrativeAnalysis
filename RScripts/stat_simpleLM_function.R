@@ -5,9 +5,7 @@ stat_simpleLM_function = function(counts, age) {
   
   statResults = matrix(nrow=ncol(counts), ncol=4)
   simple_lm = NULL
-  # taxadf = as.data.frame(counts)
-  
-  
+
   #run lm and obtain stat and pval
   for(i in 1:ncol(counts))
   {

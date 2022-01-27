@@ -71,13 +71,8 @@ cs_taxa_gloor[cs_taxa_gloor %in% cs_taxa_agp]
 sum(cs_taxa_agp %in% cs_taxa_nogbcn0) # 3 matches: "Bacteroides" "Howardella"  "Akkermansia"
 #cs_taxa_agp[cs_taxa_agp %in% cs_taxa_nogbcn0]
 
-"Bacteroides" %in% cs_taxa_morgan 
-"Bacteroides" %in% cs_taxa_baxter
-"Bacteroides" %in% cs_taxa_goodrich
-"Bacteroides" %in% cs_taxa_gloor #true
-"Bacteroides" %in% cs_taxa_agp #true
-"Bacteroides" %in% cs_taxa_nogbcn0 #true
 
+#check
 "Bifidobacterium" %in% cs_taxa_morgan #true
 "Bifidobacterium" %in% cs_taxa_baxter
 "Bifidobacterium" %in% cs_taxa_goodrich #true
@@ -85,15 +80,6 @@ sum(cs_taxa_agp %in% cs_taxa_nogbcn0) # 3 matches: "Bacteroides" "Howardella"  "
 "Bifidobacterium" %in% cs_taxa_agp #true
 "Bifidobacterium" %in% cs_taxa_nogbcn0
 
-"Akkermansia" %in% cs_taxa_morgan 
-"Akkermansia" %in% cs_taxa_baxter
-"Akkermansia" %in% cs_taxa_goodrich #true
-"Akkermansia" %in% cs_taxa_gloor #true
-"Akkermansia" %in% cs_taxa_agp 
-"Akkermansia" %in% cs_taxa_nogbcn0
-
-"Bacteroides" %in% reduced_list_narrow
-"Faecalibacterium" %in% reduced_list_narrow
 
 countsMatched = NULL
 cs_taxa_matched_lists = list()

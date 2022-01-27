@@ -1,7 +1,6 @@
 #Generates plots for integrative analysis
   #input: filepath to input file, filepath to result directory
-  #output: For individual cohorts: Shannon Diversity v Age plots, Richness v Age plots, MDS1 v Age plots, MDS2 v Age plots, Kendall corr p-value histograms
-  #output: p-value v p-value plots
+  #output: Shannon Diversity v Age plots, Richness v Age plots, MDS1 v Age plots, MDS2 v Age plots, Kendall corr p-value histograms, and p-value v p-value plots
 
 # The following code is for age as the only variable 
 
@@ -23,7 +22,7 @@ names(raw_q2021_files) = raw_q2021_filespaths[,2]
 
 #Step 2: lognormalize counts for each dataset, perform stats test (taxa ~ age), permanova test, alpha diversity analysis at the genus level
   #input: counts table for each dataset (ie each element from the list)
-  #output: stats calculations (non-parametric and parametric), permanova results per cohort, alpha diversity results (richness and shannon diversity)
+  #output: stats calculations (non-parametric and parametric), permanova results per cohort, alpha diversity results and plots (richness and shannon diversity)
   
 stats_fdrs_list = list()
 lm_results_list = list()
@@ -164,9 +163,9 @@ for(i in 1:11){
 
 }
 
-##_________________________________________________
 
-##print out pval comparison as files
+#Step 3: Using the stat results to create p-value v p-value plots and Kendall p-value histograms
+## p-value v p-value plots
 for(n in 1:10){
   for(m in (n+1):11){
     jpeg(paste0(resultDirPath, coh_l[[n]],"_vs_",coh_l[[m]],"_lm.jpeg"))

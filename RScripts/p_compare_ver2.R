@@ -1,4 +1,7 @@
-## This is modified from original code written by Shan Sun and is found here: https://github.com/ssun6/plotmicrobiome/blob/main/R/p_compare.R
+## This is modified from original code written by Shan Sun that is found here: https://github.com/ssun6/plotmicrobiome/blob/main/R/p_compare.R
+
+#input: pvalues from prior step (statistical test step) for two datasets; default method is Spearman
+#output: p-value vs p-value plots for a given pair of p-values; these plots have the 4 quadrants indicated in red and black
 
 p_compare_ver2=function(table1, table2,p_col1=2,p_col2=2,indicator1=4,indicator2=4,point_color="black",lab_cutoff=0.05,cor_method="spearman", data1name, data2name){
   

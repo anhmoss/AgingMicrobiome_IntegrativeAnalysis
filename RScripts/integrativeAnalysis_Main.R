@@ -168,8 +168,8 @@ for(i in 1:11){
 ## p-value v p-value plots
 for(n in 1:10){
   for(m in (n+1):11){
-    jpeg(paste0(resultDirPath, coh_l[[n]],"_vs_",coh_l[[m]],"_lm.jpeg"))
-    p_compare(stats_fdrs_list[[n]], stats_fdrs_list[[m]],p_col1=2,p_col2=2,indicator1=4,indicator2=4,point_color="black",lab_cutoff=0.005,cor_method="kendall")
+    jpeg(paste0(resultDirPath, coh_l[[n]],"_vs_",coh_l[[m]],".jpeg"))
+    p_compare_ver2(stats_fdrs_list[[n]], stats_fdrs_list[[m]],p_col1=2,p_col2=2,indicator1=4,indicator2=4,point_color="black",lab_cutoff=0.005,cor_method="kendall")
     dev.off()
   }
 }

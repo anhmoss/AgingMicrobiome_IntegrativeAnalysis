@@ -27,7 +27,6 @@ generatePcoaPlots = function (myFilePath, resultDirPath) {
     raw_merge_allCounts = full_join(raw_merge_allCounts, file)
   }
   
-  ##
   raw_merge_allCounts[is.na(raw_merge_allCounts)] = 0
   
   raw_merge_allCounts_genusTaxa = raw_merge_allCounts[,grep("g__", colnames(raw_merge_allCounts))]

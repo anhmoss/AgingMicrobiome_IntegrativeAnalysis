@@ -1,3 +1,7 @@
+#input: filepath of input file, filepath for result directory
+#output: power rarefaction plots for the 6 cohorts with age signal, with results from parametric (simple linear regression) and non-parametric (kendall corr) tests
+
+
 generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
 
 raw_q2021_filespaths = read.table(myFilePath, header = TRUE, sep = "\t")

@@ -1,5 +1,5 @@
 #input: filepath of input file, filepath for result directory
-#output: power rarefaction plots for the 6 cohorts with age signal, with results from parametric (simple linear regression) and non-parametric (kendall corr) tests
+#output: power rarefaction plots for all cohorts with non-parametric test (kendall corr) and for the 6 cohorts with age signal, with results from both parametric (simple linear regression) and non-parametric (kendall corr) tests
 
 
 generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
@@ -516,5 +516,121 @@ compareStatModels_plot_nogbcn0 = ggplot(compare_merge_nogbcn0, aes(x=Subsamplesi
        
   jpeg(paste0(resultDirPath, "LMvsKcorr_NogBCN0.jpeg")
   print(compareStatModels_plot_nogbcn0)
-  dev.off()         
+  dev.off()     
+  
+ #print power rarefaction plots for all cohorts from non-parametric (kendall corr) test
+  
+  powerPlot_agp_KCorr = ggplot(lognorm_agp_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_agp_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("AGP (n=1,368)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits=c(-6,260),breaks= seq(0, 260, by=20)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11), axis.text=element_text(size=6))
+
+powerPlot_ross_KCorr = ggplot(lognorm_ross_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_ross_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Ross (n=63)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_nogstk_KCorr = ggplot(lognorm_nogstk_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_nogstk_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("NogSTK (n=84)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_nogbcn0_KCorr = ggplot(lognorm_nogbcn0_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_nogbcn0_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("NogBCN0 (n=156)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35.5), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+
+powerPlot_goodrich_KCorr = ggplot(lognorm_goodrich_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_goodrich_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Goodrich (n=835)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits=c(-6,35),breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11), axis.text=element_text(size=6))
+
+powerPlot_gloor_KCorr = ggplot(lognorm_gloor_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_gloor_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Gloor (n=803)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(breaks= seq(0, 260, by=20)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11), axis.text=element_text(size=6))
+
+powerPlot_escobar_KCorr = ggplot(lognorm_escobar_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_escobar_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Escobar (n=30)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) +
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank(),
+        plot.title = element_text(size=11)) 
+
+powerPlot_baxter_KCorr = ggplot(lognorm_baxter_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_baxter_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Baxter (n=490)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) +
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank(),
+        plot.title = element_text(size=11)) 
+
+powerPlot_zellergermany_KCorr = ggplot(lognorm_zellergermany_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_zellergermany_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("ZellerGermany (n=48)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_zellerfrance_KCorr = ggplot(lognorm_zellerfrance_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_zellerfrance_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("ZellerFrance (n=129)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_morgan_KCorr = ggplot(lognorm_morgan_powerMatrix_KCorr, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_morgan_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Morgan (n=228)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+#combine all plots
+jpeg(paste0(resultDirPath, "PowerPlots_KendallCorr.jpeg")
+fullsets_comparison_KCorr = ggarrange(powerPlot_nogbcn0_KCorr,powerPlot_nogstk_KCorr, powerPlot_escobar_KCorr,
+                                      plot.new(), plot.new(), 
+                                      powerPlot_zellerfrance_KCorr, powerPlot_zellergermany_KCorr,powerPlot_goodrich_KCorr, powerPlot_baxter_KCorr,powerPlot_ross_KCorr, 
+                                      powerPlot_gloor_KCorr,powerPlot_morgan_KCorr, powerPlot_agp_KCorr, plot.new(), plot.new(), 
+                                      labels = c(LETTERS[1:3], "", "", LETTERS[4:11]),
+                                      nrow = 3, ncol = 5) 
+
+annotate_figure(fullsets_comparison_KCorr, bottom="Sample size", 
+                left="Number of Significant Taxa")
+dev.off()
+     
 }

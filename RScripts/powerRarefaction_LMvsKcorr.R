@@ -1,4 +1,4 @@
-generatePowerPlots_CompareModels = function(myFilePath) {
+generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
 
 raw_q2021_filespaths = read.table(myFilePath, header = TRUE, sep = "\t")
 raw_q2021_files = list()
@@ -376,6 +376,10 @@ compareStatModels_plot_agp = ggplot(compare_merge_agp, aes(x=Subsamplesize, y=Me
   geom_vline(xintercept = 200, linetype=2) + 
   geom_vline(xintercept = 100, linetype=2) +
   geom_vline(xintercept = 150, linetype=2)
+  
+  jpeg(paste0(resultDirPath, "LMvsKcorr_AGP.jpeg")
+  print(compareStatModels_plot_agp)
+  dev.off()
 
 ## gloor
 compare_lm_gloor = lognorm_gloor_powerMatrix_LM
@@ -399,6 +403,9 @@ compareStatModels_plot_gloor = ggplot(compare_merge_gloor, aes(x=Subsamplesize, 
   geom_vline(xintercept = 100, linetype=2) +
   geom_vline(xintercept = 150, linetype=2)
 
+  jpeg(paste0(resultDirPath, "LMvsKcorr_Gloor.jpeg")
+  print(compareStatModels_plot_gloor)
+  dev.off()
 
 ## goodrich
 
@@ -423,6 +430,9 @@ compareStatModels_plot_goodrich = ggplot(compare_merge_goodrich, aes(x=Subsample
   geom_vline(xintercept = 100, linetype=2) +
   geom_vline(xintercept = 150, linetype=2)
 
+  jpeg(paste0(resultDirPath, "LMvsKcorr_Goodrich.jpeg")
+  print(compareStatModels_plot_goodrich)
+  dev.off() 
 
 ## baxter
 compare_lm_baxter = lognorm_baxter_powerMatrix_LM
@@ -446,6 +456,9 @@ compareStatModels_plot_baxter = ggplot(compare_merge_baxter, aes(x=Subsamplesize
   geom_vline(xintercept = 100, linetype=2) +
   geom_vline(xintercept = 150, linetype=2)
 
+  jpeg(paste0(resultDirPath, "LMvsKcorr_Baxter.jpeg")
+  print(compareStatModels_plot_baxter)
+  dev.off() 
 
 ## morgan
 
@@ -469,6 +482,10 @@ compareStatModels_plot_morgan = ggplot(compare_merge_morgan, aes(x=Subsamplesize
   geom_vline(xintercept = 200, linetype=2) + 
   geom_vline(xintercept = 100, linetype=2) +
   geom_vline(xintercept = 150, linetype=2)
+       
+  jpeg(paste0(resultDirPath, "LMvsKcorr_Morgan.jpeg")
+  print(compareStatModels_plot_morgan)
+  dev.off()      
 
 ## nogbcn0
 
@@ -492,4 +509,8 @@ compareStatModels_plot_nogbcn0 = ggplot(compare_merge_nogbcn0, aes(x=Subsamplesi
   geom_vline(xintercept = 200, linetype=2) + 
   geom_vline(xintercept = 100, linetype=2) +
   geom_vline(xintercept = 150, linetype=2)
+       
+  jpeg(paste0(resultDirPath, "LMvsKcorr_NogBCN0.jpeg")
+  print(compareStatModels_plot_nogbcn0)
+  dev.off()         
 }

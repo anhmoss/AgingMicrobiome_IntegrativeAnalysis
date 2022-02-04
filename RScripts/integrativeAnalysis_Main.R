@@ -161,8 +161,6 @@ for(i in 1:11){
   dev.off()
 }
 
-}
-
 
 #Step 3: Using the stat results to create p-value v p-value plots and Kendall p-value histograms
 ## p-value v p-value plots
@@ -229,3 +227,81 @@ hist(as.numeric(stats_fdrs_list[[11]][,2]), breaks = 15,
      xlab = "Kendall P-values")
 plot.new()
 plot.new()
+  
+ 
+#Step 4: checking common taxa across cohorts based on non-parametric statistical tests (kendall corr)
+ allTaxaNames = list()
+
+for(i in 1:11){
+  allTaxaNames[[i]] = rownames(stats_fdrs_list[[i]])
+}
+
+commonGenusNames_allCohorts = Reduce(intersect, allTaxaNames)
+commonGenusNames_allCohorts_genera = commonGenusNames_allCohorts[-(grep("UCG|uncultured", commonGenusNames_allCohorts))]
+
+# writes text file with all genera common across all cohorts
+  write.table(commonGenusNames_allCohorts_genera, paste0(resultDirPath, "commonGenera.txt"), quote = F, row.names = F)
+  
+#pulls stats results for only taxa that are common in all 11 cohorts (commonGenusNames_allCohorts_genera)
+commonGenus_narrow_list = list()
+
+for(i in 1:11){
+  commonGenus_narrow_list[[i]] = stats_fdrs_list[[i]][rownames(stats_fdrs_list[[i]]) %in% commonGenusNames_allCohorts_genera,]
+}
+
+ # corrects for R considering single row matrix as a vector (which drops rownames), so this maintains single-row output for Morgan as a matrix instead of a vector
+commonGenus_narrow_list[[1]][(commonGenus_narrow_list[[1]][,3] < 0.05),,drop=F]
+  
+ # writes text file w stats matrix (kendall tau, pvalue, fdr pvals, and enrichment) for taxa shared across all datasets
+  write.table(commonGenus_narrow_list, paste0(resultDirPath, "commonGenera_statsResults.txt"), quote = F)
+
+#among the common taxa, pull the ones that have fdr adjusted pvals  < 0.05 for each cohort
+commonAndSignificant_list = list()
+names(commonAndSignificant_list) = coh_l
+
+for(i in 1:11){
+  commonAndSignificant_list[[i]] = commonGenus_narrow_list[[i]][as.numeric(commonGenus_narrow_list[[i]][,3]) < 0.05,,drop=F]
+
+}
+
+#Bifidobacterium: morgan, gloor, goodrich, agp
+#baxter cohort: had 3 that were significant at 5% fdr threhold....
+cs_taxa_morgan = rownames(commonAndSignificant_list$Morgan)
+cs_taxa_baxter = rownames(commonAndSignificant_list$Baxter)
+cs_taxa_goodrich = rownames(commonAndSignificant_list$Goodrich)
+cs_taxa_gloor = rownames(commonAndSignificant_list$Gloor)
+cs_taxa_agp = rownames(commonAndSignificant_list$AGP)
+cs_taxa_nogbcn0 = rownames(commonAndSignificant_list$Nog_BCN0)
+
+cs_taxa_allList = list(cs_taxa_morgan, cs_taxa_baxter, cs_taxa_goodrich, cs_taxa_gloor,
+                       cs_taxa_agp, cs_taxa_nogbcn0)
+names(cs_taxa_allList) = c("Morgan", "Baxter", "Goodrich", "Gloor", "AGP", "NogBCN0")
+
+#checking if taxa in baxter match w any other ones
+cs_taxa_baxter %in% cs_taxa_goodrich # 0 matches
+cs_taxa_baxter %in% cs_taxa_gloor # all 3 are in gloor
+cs_taxa_baxter %in% cs_taxa_agp #all 3 are in agp
+cs_taxa_baxter %in% cs_taxa_nogbcn0 # 0 matches
+
+#goodrich
+sum(cs_taxa_goodrich %in% cs_taxa_gloor) #6 matches
+cs_taxa_goodrich[cs_taxa_goodrich %in% cs_taxa_gloor] #: Parabacteroides, Haemophilus, Haemophilus
+cs_taxa_goodrich[cs_taxa_goodrich %in% cs_taxa_agp]  #3 matches 
+sum(cs_tax__goodrich %in% cs_taxa_nogbcn0) #1 match : Parabacteroides
+
+#gloor
+sum(cs_taxa_gloor %in% cs_taxa_agp) #17 matches
+sum(cs_taxa_gloor %in% cs_taxa_nogbcn0) #9 matches
+
+#agp
+sum(cs_taxa_agp %in% cs_taxa_nogbcn0) # 3 matches: "Bacteroides" "Howardella"  "Akkermansia"
+
+"Bifidobacterium" %in% cs_taxa_morgan #true
+"Bifidobacterium" %in% cs_taxa_baxter
+"Bifidobacterium" %in% cs_taxa_goodrich #true
+"Bifidobacterium" %in% cs_taxa_gloor #true
+"Bifidobacterium" %in% cs_taxa_agp #true
+"Bifidobacterium" %in% cs_taxa_nogbcn0
+
+ 
+  }

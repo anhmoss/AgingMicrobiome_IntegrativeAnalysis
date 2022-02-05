@@ -1,6 +1,6 @@
 #Generates plots for integrative analysis
   #input: filepath to input file, filepath to result directory
-  #output: Shannon Diversity v Age plots, Richness v Age plots, MDS1 v Age plots, MDS2 v Age plots, Kendall corr p-value histograms, and p-value v p-value plots
+  #output: Shannon Diversity v Age plots, Richness v Age plots, MDS1 v Age plots, MDS2 v Age plots, Kendall corr p-value histograms, and p-value v p-value plots, Pearson Corr Plot for Bifidobacterium
 
 # The following code is for age as the only variable 
 

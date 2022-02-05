@@ -303,5 +303,89 @@ sum(cs_taxa_agp %in% cs_taxa_nogbcn0) # 3 matches: "Bacteroides" "Howardella"  "
 "Bifidobacterium" %in% cs_taxa_agp #true
 "Bifidobacterium" %in% cs_taxa_nogbcn0
 
- 
+# Plot pearson correlation (Bifidobacterium ~ Age) for each cohort
+pcorr_bifido = list()
+zeroCounts_perCohort = NULL
+fullSampleSize_perCohort = NULL
+
+for(i in 1:11){
+zeroCounts_perCohort[i] = sum(lognormfiles_q2021[[i]][,-ncol(lognormfiles_q2021[[i]])]$Bifidobacterium==0) 
+fullSampleSize_perCohort[i] = nrow(lognormfiles_q2021[[i]]) 
+pcorr_matrix = matrix(nrow=1, ncol=4)
+colnames(pcorr_matrix) = c("pval", "estimate", "ci_left", "ci_right")
+
+pcorr_bifido_output =  cor.test(lognormfiles_q2021[[i]][,-ncol(lognormfiles_q2021[[i]])]$Bifidobacterium, 
+                               lognormfiles_q2021[[i]][,ncol(lognormfiles_q2021[[i]])], method="pearson")
+pcorr_matrix[,1] = pcorr_bifido_output$p.value
+pcorr_matrix[,2] = pcorr_bifido_output$estimate
+pcorr_matrix[,3] = pcorr_bifido_output$conf.int[1]
+pcorr_matrix[,4] = pcorr_bifido_output$conf.int[2]
+
+pcorr_bifido[[i]] = pcorr_matrix
+
+}   
+names(pcorr_bifido) = coh_l
+jpeg(pasate0(resultDirPath, "PearsonCorrPlot_Bifidobacterium.jpeg") 
+boxplot(
+  pcorr_bifido$Nog_BCN0[c(3,4)],
+  pcorr_bifido$Nog_STK[c(3,4)],
+  pcorr_bifido$Escobar[c(3,4)],
+  pcorr_bifido$ZellerFrance[c(3,4)],
+  pcorr_bifido$ZellerGermany[c(3,4)],
+  pcorr_bifido$Goodrich[c(3,4)],
+  pcorr_bifido$Baxter[c(3,4)],
+  pcorr_bifido$Ross[c(3,4)],
+  pcorr_bifido$Gloor[c(3,4)],
+  pcorr_bifido$Morgan[c(3,4)],
+  pcorr_bifido$AGP[c(3,4)],
+  names = c("NogBCN0\n(n=156)", "NogSTK\n(n=84)", "Escobar\n(n=30)",
+            "Zeller\nFrance\n(n=129)", "Zeller\nGermany\n(n=48)", "Goodrich\n(n=835)", "Baxter\n(n=490)", "Ross\n(n=63)",
+            "Gloor\n(n=803)", "Morgan\n(n=228)", "AGP\n(n=1,368)"),
+  horizontal = T,
+  ylim=c(-0.6, 0.6), 
+  main="Bifidobacterium",
+  xlab="Pearson R Value
+  Age ~ OTU Count", 
+  las=2, font =2, cex.axis=0.6
+  
+)
+text(-0.29,11, "*", cex = 2)
+text(-0.42,10, "*", cex = 2)
+text(-0.61,9,"*", cex = 2)
+text(-0.23,6, "*", cex = 2)
+abline(v=0, lty=2)
+  
+dev.off()  
+    
+# Comparing correlation trends across all cohorts
+
+## Pulling enrichment (positive/negative correlation) for taxa common in all cohorts
+enrichment_list = list()
+as.data.frame(enrichment_list)
+
+for(i in 1:11){
+ enrichment_commontaxa = matrix(nrow=70, ncol=2) 
+ common_stats_matrix= stats_fdrs_list[[i]][rownames(stats_fdrs_list[[i]]) %in% commonGenus_narrow_list,]
+ enrichment_commontaxa[,1] =rownames(common_stats_matrix)
+ enrichment_commontaxa[,2] = common_stats_matrix[,4] 
+ enrichment_list[[i]]= as.data.frame(enrichment_commontaxa)
+}
+
+all_enrichment_df = cbind(enrichment_list[[1]][,2], enrichment_list[[2]][,2], 
+                          enrichment_list[[3]][,2], enrichment_list[[4]][,2],
+                          enrichment_list[[5]][,2], enrichment_list[[6]][,2], 
+                          enrichment_list[[7]][,2], enrichment_list[[8]][,2], 
+                          enrichment_list[[9]][,2], enrichment_list[[10]][,2],
+                          enrichment_list[[11]][,2])
+rownames(all_enrichment_df) = commonGenus_narrow_list
+
+  ## Counting how many taxa trend across all 11 cohorts
+total_en_sum = matrix(nrow=70, ncol=2)
+for(i in 1:nrow(all_enrichment_df))
+{
+  total_en_sum[i,2] = sum(all_enrichment_df[i,]== "negative") ==11
+  total_en_sum[i,1] = sum(all_enrichment_df[i,]== "positive") ==11
+}
+rownames(total_en_sum) = reduced_list_narrow
+  
   }

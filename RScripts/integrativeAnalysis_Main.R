@@ -71,7 +71,7 @@ for(i in 1:11){
   kcorr_agevshannondiv = cor.test(age_meta, shannondiv_result, method="kendall")
   
   #plot age v richness 
-  jpeg(paste0(resultDirPath, coh_l[[i]], "_Richness_Age_scatterplots.jpeg"))
+  pdf(paste0(resultDirPath, coh_l[[i]], "_Richness_Age_scatterplots.pdf"),onefile = T,height=10,width=10)
   if(kcorr_agevrichness$p.value <0.05)
   { plot(age_meta, richness_result,
          xlab= "Age",
@@ -90,7 +90,7 @@ for(i in 1:11){
   dev.off()
   
   #plot age v shannon div
-  jpeg(paste0(resultDirPath, coh_l[[i]], "_ShannonDiv_Age_scatterplots.jpeg"))
+  pdf(paste0(resultDirPath, coh_l[[i]], "_ShannonDiv_Age_scatterplots.pdf"),onefile = T,height=10,width=10)
   
   if(kcorr_agevshannondiv$p.value <0.05)
   { plot(age_meta, shannondiv_result,
@@ -126,7 +126,7 @@ for(i in 1:11){
   permanovaResult_cohorts_matrix[i,3] = permanovaR2_indivCohort 
   
   #plot age v MDS1 and MDS2 scatterplots 
-  jpeg(paste0(resultDirPath, coh_l[[i]], "_AgevMDS1_scatterplots.jpeg"))
+  pdf(paste0(resultDirPath, coh_l[[i]], "_AgevMDS1_scatterplots.pdf"),onefile = T,height=10,width=10)
   if(kcorr_agevMDS1$p.value < 0.05) 
   { plot(age_meta, pcoa_indivCohort$CA$u[,1],
          xlab = "Age",
@@ -143,7 +143,7 @@ for(i in 1:11){
                                                                           xlim = c(0,115),col=myPlotColors[i])}
   dev.off()
   
-  jpeg(paste0(resultDirPath, coh_l[[i]], "_AgevMDS2_scatterplots.jpeg"))
+  pdf(paste0(resultDirPath, coh_l[[i]], "_AgevMDS2_scatterplots.pdf"),onefile = T,height=10,width=10)
   if(kcorr_agevMDS2$p.value < 0.05) 
   { plot(age_meta, pcoa_indivCohort$CA$u[,2],
          xlab = "Age",
@@ -166,7 +166,7 @@ for(i in 1:11){
 ## p-value v p-value plots
 for(n in 1:10){
   for(m in (n+1):11){
-    jpeg(paste0(resultDirPath, coh_l[[n]],"_vs_",coh_l[[m]],".jpeg"))
+    pdf(paste0(resultDirPath, coh_l[[n]],"_vs_",coh_l[[m]],".pdf"),onefile = T,height=10,width=10)
     p_compare_ver2(stats_fdrs_list[[n]], stats_fdrs_list[[m]],p_col1=2,p_col2=2,indicator1=4,indicator2=4,point_color="black",lab_cutoff=0.005,cor_method="kendall")
     dev.off()
   }
@@ -175,7 +175,7 @@ for(n in 1:10){
 ## histograms for kendall pvals
 stats_fdrs_list
 for(i in 1:11){
-  jpeg(paste0(resultDirPath,coh_l[i], "_KendallHist.jpeg"))
+  pdf(paste0(resultDirPath,coh_l[i], "_KendallHist.pdf"),onefile = T,height=10,width=10)
   totalSignifTaxa_sum = sum(as.numeric(stats_fdrs_list[[i]][,3]) < 0.05)
   hist_title = paste0(coh_l[[i]], "\n", "Significant Taxa: ", totalSignifTaxa_sum)
   hist_xaxis = paste0("Kendall P-values")
@@ -325,7 +325,7 @@ pcorr_bifido[[i]] = pcorr_matrix
 
 }   
 names(pcorr_bifido) = coh_l
-jpeg(pasate0(resultDirPath, "PearsonCorrPlot_Bifidobacterium.jpeg") 
+pdf(paste0(resultDirPath, "PearsonCorrPlot_Bifidobacterium.pdf"),onefile = T,height=10,width=10) 
 boxplot(
   pcorr_bifido$Nog_BCN0[c(3,4)],
   pcorr_bifido$Nog_STK[c(3,4)],

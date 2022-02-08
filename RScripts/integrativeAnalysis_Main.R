@@ -39,7 +39,7 @@ for(i in 1:11){
   raw_file = raw_q2021_files[[i]]
   taxa_table = raw_file[,grep("g__",colnames(raw_file))]
   taxa_table = taxa_table[rowSums(taxa_table)!=0,]
-  age_meta = raw_file$Age[rowSums(taxa_table)!=0]
+  age_meta = raw_file$Age[which(rowSums(taxa_table)!=0)]
   
   lognorm_file = lognorm_function(taxa_table)
   names_short=sapply(strsplit(colnames(lognorm_file),"g__"),"[[",2)

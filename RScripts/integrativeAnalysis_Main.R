@@ -39,6 +39,7 @@ for(i in 1:11){
   raw_file = raw_q2021_files[[i]]
   taxa_table = raw_file[,grep("g__",colnames(raw_file))]
   age_meta = raw_file$Age[which(rowSums(taxa_table)!=0)]
+  age_fullset = raw_file$Age
   
   lognorm_file = lognorm_function(taxa_table)
   names_short=sapply(strsplit(colnames(lognorm_file),"g__"),"[[",2)
@@ -66,8 +67,8 @@ for(i in 1:11){
   shannondiv_result[which(rowSums(rarefied_1000)<1000)] =NA
   shannondiv_list[[i]] = shannondiv_result
   
-  kcorr_agevrichness = cor.test(age_meta, richness_result, method="kendall")
-  kcorr_agevshannondiv = cor.test(age_meta, shannondiv_result, method="kendall")
+  kcorr_agevrichness = cor.test(age_fullset, richness_result, method="kendall")
+  kcorr_agevshannondiv = cor.test(age_fullset, shannondiv_result, method="kendall")
   
   #plot age v richness 
   pdf(paste0(resultDirPath, coh_l[[i]], "_Richness_Age_scatterplots.pdf"),onefile = T,height=10,width=10)

@@ -73,14 +73,14 @@ for(i in 1:11){
   #plot age v richness 
   pdf(paste0(resultDirPath, coh_l[[i]], "_Richness_Age_scatterplots.pdf"),onefile = T,height=10,width=10)
   if(kcorr_agevrichness$p.value <0.05)
-  { plot(age_meta, richness_result,
+  { plot(age_fullset, richness_result,
          xlab= "Age",
          ylab = "Richness",
          main=c(paste(coh_l[[i]]), 
                 paste("P-value=", format(kcorr_agevrichness$p.value,digits=3),
                       "R=", format(kcorr_agevrichness$estimate,digits=3),sep=" ")),
          col.main="red",
-         xlim = c(0,115),col=myPlotColors[i])} else {plot(age_meta, richness_result,
+         xlim = c(0,115),col=myPlotColors[i])} else {plot(age_fullset, richness_result,
                                                           xlab= "Age",
                                                           ylab = "Richness",
                                                           main=c(paste(coh_l[[i]]), 
@@ -93,14 +93,14 @@ for(i in 1:11){
   pdf(paste0(resultDirPath, coh_l[[i]], "_ShannonDiv_Age_scatterplots.pdf"),onefile = T,height=10,width=10)
   
   if(kcorr_agevshannondiv$p.value <0.05)
-  { plot(age_meta, shannondiv_result,
+  { plot(age_fullset, shannondiv_result,
          xlab= "Age",
          ylab = "Shannon Diversity",
          main=c(paste(coh_l[[i]]), 
                 paste("P-value=", format(kcorr_agevshannondiv$p.value,digits=3),
                       "R=", format(kcorr_agevshannondiv$estimate,digits=3),sep=" ")),
          col.main="red",
-         xlim = c(0,115),col=myPlotColors[i])} else {plot(age_meta, shannondiv_result,
+         xlim = c(0,115),col=myPlotColors[i])} else {plot(age_fullset, shannondiv_result,
                                                           xlab= "Age",
                                                           ylab = "Shannon Diversity",
                                                           main=c(paste(coh_l[[i]]), 

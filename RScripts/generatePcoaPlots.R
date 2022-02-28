@@ -48,7 +48,7 @@ generatePcoaPlots = function (myFilePath, resultDirPath) {
   
   percentVariance_all <- eigenvals(lognorm_allCounts_q2021_pcoa)/sum(eigenvals(lognorm_allCounts_q2021_pcoa))
   
-  jpeg(paste0(resultDirPath, "Pcoa_AllSamples.jpeg"))
+  pdf(paste0(resultDirPath, "Pcoa_AllSamples.pdf"),onefile = T)
   lognorm_allCounts_q2021_pcoa12 <- ordiplot(lognorm_allCounts_q2021_pcoa, choices = c(1,2), 
                                              main=c(paste("All Samples, Genus Level"),
                                                     paste("R2=", format(permanova_allcounts$aov.tab$R2[1],digits=3),
@@ -101,7 +101,7 @@ generatePcoaPlots = function (myFilePath, resultDirPath) {
   
   percentVariance_youngerRange <- eigenvals(lognorm_youngerRange_pcoa)/sum(eigenvals(lognorm_youngerRange_pcoa))
   
-  jpeg(paste0(resultDirPath, "Pcoa_YoungerRange.jpeg"))
+  pdf(paste0(resultDirPath, "Pcoa_YoungerRange.pdf"),onefile = T)
   lognorm_youngerRange12 <- ordiplot(lognorm_youngerRange_pcoa, choices = c(1,2), 
                                      main=c(paste("Younger Range"),
                                   paste("R2=", format(youngerRange_permanovaResults_cohort$aov.tab$R2[1],digits=3),
@@ -144,7 +144,7 @@ generatePcoaPlots = function (myFilePath, resultDirPath) {
   
   percentVariance_middleRange <- eigenvals(lognorm_middleRange_pcoa)/sum(eigenvals(lognorm_middleRange_pcoa))
   
-  jpeg(paste0(resultDirPath, "Pcoa_MiddleRange.jpeg"))
+  pdf(paste0(resultDirPath, "Pcoa_MiddleRange.pdf"),onefile = T)
   lognorm_middleRange12 <- ordiplot(lognorm_middleRange_pcoa, choices = c(1,2), 
                                     main=c(paste("Middle Range"),
                                            paste("R2=", format(middleRange_permanovaResults_cohort$aov.tab$R2[1],digits=3),
@@ -190,7 +190,7 @@ generatePcoaPlots = function (myFilePath, resultDirPath) {
   
   percentVariance_fullRange <- eigenvals(lognorm_fullRange_pcoa)/sum(eigenvals(lognorm_fullRange_pcoa))
   
-  jpeg(paste0(resultDirPath, "Pcoa_FullRange.jpeg"))
+  pdf(paste0(resultDirPath, "Pcoa_FullRange.pdf"),onefile = T)
   lognorm_fullRange12 <- ordiplot(lognorm_fullRange_pcoa, choices = c(1,2), 
                                   main=c(paste("Full Range"),
                                          paste("R2=", format(fullRange_permanovaResults$aov.tab$R2[1],digits=3),

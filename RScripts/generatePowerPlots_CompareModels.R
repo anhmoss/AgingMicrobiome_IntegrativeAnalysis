@@ -621,7 +621,7 @@ powerPlot_morgan_KCorr = ggplot(lognorm_morgan_powerMatrix_KCorr, aes(x=Subsampl
         plot.title = element_text(size=11))
 
 #combine all plots
-jpeg(paste0(resultDirPath, "PowerPlots_KendallCorr.jpeg")
+pdf(paste0(resultDirPath, "PowerPlots_KendallCorr.pdf"),onefile = T)
 fullsets_comparison_KCorr = ggarrange(powerPlot_nogbcn0_KCorr,powerPlot_nogstk_KCorr, powerPlot_escobar_KCorr,
                                       plot.new(), plot.new(), 
                                       powerPlot_zellerfrance_KCorr, powerPlot_zellergermany_KCorr,powerPlot_goodrich_KCorr, powerPlot_baxter_KCorr,powerPlot_ross_KCorr, 

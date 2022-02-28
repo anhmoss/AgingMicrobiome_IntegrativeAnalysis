@@ -362,12 +362,12 @@ generatePlots = function(myFilePath, resultDirPath) {
   # Comparing correlation trends across all cohorts
   
   ## Pulling enrichment (positive/negative correlation) for taxa common in all cohorts
-  enrichment_list = list()
+   enrichment_list = list()
   as.data.frame(enrichment_list)
   
   for(i in 1:11){
     enrichment_commontaxa = matrix(nrow=70, ncol=2) 
-    common_stats_matrix= stats_fdrs_list[[i]][rownames(stats_fdrs_list[[i]]) %in% commonGenus_narrow_list,]
+    common_stats_matrix= stats_fdrs_list[[i]][rownames(stats_fdrs_list[[i]]) %in% commonGenusNames_allCohorts_genera,]
     enrichment_commontaxa[,1] =rownames(common_stats_matrix)
     enrichment_commontaxa[,2] = common_stats_matrix[,4] 
     enrichment_list[[i]]= as.data.frame(enrichment_commontaxa)
@@ -379,7 +379,7 @@ generatePlots = function(myFilePath, resultDirPath) {
                             enrichment_list[[7]][,2], enrichment_list[[8]][,2], 
                             enrichment_list[[9]][,2], enrichment_list[[10]][,2],
                             enrichment_list[[11]][,2])
-  #rownames(all_enrichment_df) = commonGenusNames_allCohorts_genera
+  rownames(all_enrichment_df) = commonGenusNames_allCohorts_genera
   
   ## Counting how many taxa trend across all 11 cohorts
   total_en_sum = matrix(nrow=70, ncol=2)

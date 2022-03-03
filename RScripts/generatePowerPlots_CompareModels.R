@@ -381,7 +381,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
     geom_vline(xintercept = 100, linetype=2) +
     geom_vline(xintercept = 150, linetype=2)
   
-  jpeg(paste0(resultDirPath, "LMvsKcorr_AGP.plotjpeg"))
+       pdf(paste0(resultDirPath, "LMvsKcorr_AGP.pdf"),onefile = T, width = 10)
        plot(compareStatModels_plot_agp)
        dev.off()
        
@@ -407,7 +407,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
          geom_vline(xintercept = 100, linetype=2) +
          geom_vline(xintercept = 150, linetype=2)
        
-       jpeg(paste0(resultDirPath, "LMvsKcorr_Gloor.plotjpeg"))
+            pdf(paste0(resultDirPath, "LMvsKcorr_Gloor.pdf"),onefile = T, width = 10)
             plot(compareStatModels_plot_gloor)
             dev.off()
             
@@ -434,7 +434,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
               geom_vline(xintercept = 100, linetype=2) +
               geom_vline(xintercept = 150, linetype=2)
             
-            jpeg(paste0(resultDirPath, "LMvsKcorr_Goodrich.plotjpeg"))
+            pdf(paste0(resultDirPath, "LMvsKcorr_Goodrich.pdf"),onefile = T, width = 10)
                  plot(compareStatModels_plot_goodrich)
                  dev.off() 
                  
@@ -460,7 +460,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                    geom_vline(xintercept = 100, linetype=2) +
                    geom_vline(xintercept = 150, linetype=2)
                  
-                 jpeg(paste0(resultDirPath, "LMvsKcorr_Baxter.plotjpeg"))
+                 pdf(paste0(resultDirPath, "LMvsKcorr_Baxter.pdf"),onefile = T, width = 10)
                       plot(compareStatModels_plot_baxter)
                       dev.off() 
                       
@@ -487,7 +487,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                         geom_vline(xintercept = 100, linetype=2) +
                         geom_vline(xintercept = 150, linetype=2)
                       
-                      jpeg(paste0(resultDirPath, "LMvsKcorr_Morgan.plotjpeg"))
+                      pdf(paste0(resultDirPath, "LMvsKcorr_Morgan.pdf"),onefile = T, width = 10)
                       plot(compareStatModels_plot_morgan)
                       dev.off()      
                            
@@ -514,7 +514,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                              geom_vline(xintercept = 100, linetype=2) +
                              geom_vline(xintercept = 150, linetype=2)
                            
-                           jpeg(paste0(resultDirPath, "LMvsKcorr_NogBCN0.plotjpeg"))
+                           pdf(paste0(resultDirPath, "LMvsKcorr_NogBCN0.pdf"),onefile = T, width = 10)
                            plot(compareStatModels_plot_nogbcn0)
                            dev.off()     
                                 
@@ -621,17 +621,14 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                                         plot.title = element_text(size=11))
                                 
                                 #combine all plots
-                                pdf(paste0(resultDirPath, "PowerPlots_KendallCorr.pdf"),onefile = T)
                                 fullsets_comparison_KCorr = ggarrange(powerPlot_nogbcn0_KCorr,powerPlot_nogstk_KCorr, powerPlot_escobar_KCorr,
                                                                       plot.new(), plot.new(), 
                                                                       powerPlot_zellerfrance_KCorr, powerPlot_zellergermany_KCorr,powerPlot_goodrich_KCorr, powerPlot_baxter_KCorr,powerPlot_ross_KCorr, 
                                                                       powerPlot_gloor_KCorr,powerPlot_morgan_KCorr, powerPlot_agp_KCorr, plot.new(), plot.new(), 
                                                                       labels = c(LETTERS[1:3], "", "", LETTERS[4:11]),
                                                                       nrow = 3, ncol = 5) 
-                                
-                                annotate_figure(fullsets_comparison_KCorr, bottom="Sample size", 
-                                                left="Number of Significant Taxa")
+                                pdf(paste0(resultDirPath, "PowerPlots_KendallCorr.pdf"), onefile = T, width = 10)
+                                plot(annotate_figure(fullsets_comparison_KCorr, bottom="Sample size", 
+                                                     left="Number of Significant Taxa"))
                                 dev.off()
-                                
 }
-

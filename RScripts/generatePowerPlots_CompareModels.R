@@ -13,6 +13,9 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
   
   names(raw_q2021_files) = raw_q2021_filespaths[,2]
   
+ #extracting only stool samples from Morgan dataset 
+  raw_q2021_files[[1]] = subset(raw_q2021_files[[1]], raw_q2021_files[[1]]$stool==1)  
+  
   coh_l = vector()
   lognormfiles_q2021 = list()
   
@@ -332,7 +335,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
   lognorm_output_morgan_age = lognormfiles_q2021[[1]][,ncol(lognormfiles_q2021[[1]])]
   
   morgan_intervals = c(10,20,30,40,50,60,70,80,90,100,
-                       120,140,160,180,200,228)
+                       120,134)
   
   lognorm_morgan_powerMatrix_LM = matrix(nrow=length(morgan_intervals), ncol = 3)
   lognorm_morgan_powerMatrix_KCorr = matrix(nrow=length(morgan_intervals), ncol = 3)
@@ -463,36 +466,8 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                  pdf(paste0(resultDirPath, "LMvsKcorr_Baxter.pdf"),onefile = T, width = 10)
                       plot(compareStatModels_plot_baxter)
                       dev.off() 
-                      
-                      ## morgan
-                      
-                      compare_lm_morgan = lognorm_morgan_powerMatrix_LM
-                      compare_kcorr_morgan = lognorm_morgan_powerMatrix_KCorr
-                      
-                      compare_lm_morgan$test = rep("Parametric", nrow(compare_lm_morgan))
-                      compare_kcorr_morgan$test = rep("Non-Parametric", nrow(compare_kcorr_morgan))
-                      
-                      compare_merge_morgan = rbind(compare_lm_morgan, compare_kcorr_morgan)
-                      
-                      compareStatModels_plot_morgan = ggplot(compare_merge_morgan, aes(x=Subsamplesize, y=Mean)) +
-                        geom_point(data = compare_merge_morgan, aes(x= Subsamplesize, y = Mean, color=test)) +
-                        geom_errorbar(aes(ymin = Mean - SD, 
-                                          ymax = Mean + SD, color=test)) +
-                        ggtitle("Morgan(Non-Parametric vs Parametric) n=228") +
-                        scale_x_continuous(trans = 'log10') + #scale_y_continuous(limits = c(-6, 260),breaks= seq(0, 260, by=20)) + 
-                        theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
-                              plot.title = element_text(size=11), axis.text=element_text(size=6)) + 
-                        scale_color_manual(values = c("red", "blue")) + 
-                        geom_vline(xintercept = 200, linetype=2) + 
-                        geom_vline(xintercept = 100, linetype=2) +
-                        geom_vline(xintercept = 150, linetype=2)
-                      
-                      pdf(paste0(resultDirPath, "LMvsKcorr_Morgan.pdf"),onefile = T, width = 10)
-                      plot(compareStatModels_plot_morgan)
-                      dev.off()      
-                           
-                           ## nogbcn0
-                           
+  
+                          ## nogbcn0
                            compare_lm_nogbcn0 = lognorm_nogbcn0_powerMatrix_LM
                            compare_kcorr_nogbcn0 = lognorm_nogbcn0_powerMatrix_KCorr
                            
@@ -615,7 +590,7 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                                   geom_point(data = lognorm_morgan_powerMatrix_KCorr, aes(x= Subsamplesize, y = Mean)) +
                                   geom_errorbar(aes(ymin = Mean - SD, 
                                                     ymax = Mean + SD)) +
-                                  ggtitle("Morgan (n=228)") +
+                                  ggtitle("Morgan (n=134)") +
                                   scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
                                   theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
                                         plot.title = element_text(size=11))

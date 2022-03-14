@@ -454,5 +454,18 @@ generatePlots = function(myFilePath, resultDirPath) {
     total_en_sum[i,1] = sum(all_enrichment_df[i,]== "positive") ==11
   }
   rownames(total_en_sum) = commonGenusNames_allCohorts_genera
+  sum(total_en_sum[,1]=="TRUE")
+  sum(total_en_sum[,2]=="TRUE")
+  
+  ## Counting how many taxa trend across 10 out of 11 cohorts
+  total_for10Cohorts = matrix(nrow=length(commonGenusNames_allCohorts_genera), ncol=2)
+  for(i in 1:nrow(all_enrichment_df))
+  {
+    total_for10Cohorts[i,2] = sum(all_enrichment_df[i,]== "negative") ==10
+    total_for10Cohorts[i,1] = sum(all_enrichment_df[i,]== "positive") ==10
+  }
+  rownames(total_for10Cohorts) = commonGenusNames_allCohorts_genera
+  sum(total_for10Cohorts[,1]=="TRUE")
+  sum(total_for10Cohorts[,2]=="TRUE")
   
 }

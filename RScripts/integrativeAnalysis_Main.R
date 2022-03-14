@@ -175,7 +175,7 @@ generatePlots = function(myFilePath, resultDirPath) {
     dev.off()
   }
   
-  write.table(permanovaResult_cohorts_matrix, paste0(resultDirPath,"PermanovaResults_perCohort.txt"), quote = F)
+  write.table(permanovaResult_cohorts_matrix, paste0(resultDirPath,"PermanovaResults_perCohort.txt"), quote = F, row.names = F)
   
   #Step 3: Using the stat results to create p-value v p-value plots and Kendall p-value histograms
   ## p-value v p-value plots
@@ -270,7 +270,7 @@ generatePlots = function(myFilePath, resultDirPath) {
   commonGenus_narrow_list[[1]][(commonGenus_narrow_list[[1]][,3] < 0.05),,drop=F]
   
   # writes text file w stats matrix (kendall tau, pvalue, fdr pvals, and enrichment) for taxa shared across all datasets
-  write.table(commonGenus_narrow_list, paste0(resultDirPath, "commonGenera_statsResults.txt"), quote = F)
+  write.table(commonGenus_narrow_list, paste0(resultDirPath, "commonGenera_statsResults.txt"), quote = F, row.names = F)
   
   #among the common taxa, pull the ones that have fdr adjusted pvals  < 0.05 for each cohort
   commonAndSignificant_list = list()

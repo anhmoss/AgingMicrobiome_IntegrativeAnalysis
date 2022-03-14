@@ -19,6 +19,12 @@ generatePlots = function(myFilePath, resultDirPath) {
   
   names(raw_q2021_files) = raw_q2021_filespaths[,2]
   
+  #extracts only stool samples from Morgan cohort for subsequent analysis
+  raw_q2021_files[[1]] = subset(raw_q2021_files[[1]], raw_q2021_files[[1]]$stool==1)
+  
+  morgan_genera_check = raw_q2021_files[[1]][,grep("g__",colnames(raw_q2021_files[[1]]))]
+  sum(rowSums(morgan_genera_check) == 0)
+  sum(colSums(morgan_genera_check) == 0)
   
   #Step 2: lognormalize counts for each dataset, perform stats test (taxa ~ age), permanova test, alpha diversity analysis at the genus level
   #input: counts table for each dataset (ie each element from the list)
@@ -31,10 +37,13 @@ generatePlots = function(myFilePath, resultDirPath) {
   colnames(permanovaResult_cohorts_matrix) = c("Cohort", "PERMANOVA_Pvalue", "PERMANOVA_R2")
   richness_list = list()
   shannondiv_list = list()
+  myLognormFiles = list()
   myPlotColors = c("black", "cyan", "darkgreen", "lightblue",
                    "limegreen", "orange", "purple",
                    "olivedrab", "red", "darkred", "plum")
+  
   set.seed(123)
+  
   for(i in 1:11){
     raw_file = raw_q2021_files[[i]]
     taxa_table = raw_file[,grep("g__",colnames(raw_file))]
@@ -46,10 +55,15 @@ generatePlots = function(myFilePath, resultDirPath) {
     colnames(lognorm_file)=names_short
     lognorm_file=lognorm_file[,colSums(lognorm_file)!=0]
     
-    coh_l[i]=raw_file[1,1]
+    mylogfile = lognorm_file
+    mylogfile$Age = age_meta
+    myLognormFiles[[i]] = mylogfile 
+    
+    coh_l[i]=raw_file[1,1] 
     
     stat_output = stat_correlation_function(counts=lognorm_file, age = age_meta, corrMethod = "kendall")
-    stats_fdrs_list[[i]] = stat_output
+    stats_fdrs_list[[i]] = stat_output   
+    
     
     lm_output = stat_simpleLM_function(counts=lognorm_file, age = age_meta)
     lm_results_list[[i]] = lm_output
@@ -68,21 +82,21 @@ generatePlots = function(myFilePath, resultDirPath) {
     shannondiv_list[[i]] = shannondiv_result
     
     kcorr_agevrichness = cor.test(age_fullset, richness_result, method="kendall")
-    kcorr_agevshannondiv = cor.test(age_fullset, shannondiv_result, method="kendall")
+    kcorr_agevshannondiv = cor.test(age_fullset, shannondiv_result, method="kendall") 
     
     #plot age v richness 
     pdf(paste0(resultDirPath, coh_l[[i]], "_Richness_Age_scatterplots.pdf"),onefile = T,height=10,width=10)
     if(kcorr_agevrichness$p.value <0.05)
     { plot(age_fullset, richness_result,
            xlab= "Age",
-           ylab = "Richness",
+           ylab = "Richness", cex.main=1.4,
            main=c(paste(coh_l[[i]]), 
                   paste("P-value=", format(kcorr_agevrichness$p.value,digits=3),
                         "Kendall Tau=", format(kcorr_agevrichness$estimate,digits=3),sep=" ")),
            col.main="red",
            xlim = c(0,115),col=myPlotColors[i])} else {plot(age_fullset, richness_result,
                                                             xlab= "Age",
-                                                            ylab = "Richness",
+                                                            ylab = "Richness",cex.main=1.4,
                                                             main=c(paste(coh_l[[i]]), 
                                                                    paste("P-value=", format(kcorr_agevrichness$p.value,digits=3),
                                                                          "Kendall Tau=", format(kcorr_agevrichness$estimate,digits=3),sep=" ")),
@@ -95,14 +109,14 @@ generatePlots = function(myFilePath, resultDirPath) {
     if(kcorr_agevshannondiv$p.value <0.05)
     { plot(age_fullset, shannondiv_result,
            xlab= "Age",
-           ylab = "Shannon Diversity",
+           ylab = "Shannon Diversity",cex.main=1.4,
            main=c(paste(coh_l[[i]]), 
                   paste("P-value=", format(kcorr_agevshannondiv$p.value,digits=3),
                         "Kendall Tau=", format(kcorr_agevshannondiv$estimate,digits=3),sep=" ")),
            col.main="red",
            xlim = c(0,115),col=myPlotColors[i])} else {plot(age_fullset, shannondiv_result,
                                                             xlab= "Age",
-                                                            ylab = "Shannon Diversity",
+                                                            ylab = "Shannon Diversity",cex.main=1.4,
                                                             main=c(paste(coh_l[[i]]), 
                                                                    paste("P-value=", format(kcorr_agevshannondiv$p.value,digits=3),
                                                                          "Kendall Tau=", format(kcorr_agevshannondiv$estimate,digits=3),sep=" ")),
@@ -130,13 +144,13 @@ generatePlots = function(myFilePath, resultDirPath) {
     if(kcorr_agevMDS1$p.value < 0.05) 
     { plot(age_meta, pcoa_indivCohort$CA$u[,1],
            xlab = "Age",
-           ylab = "MDS1",
+           ylab = "MDS1",cex.main=1.4,
            main=c(paste(coh_l[[i]]),
                   paste("P-value=", format(kcorr_agevMDS1$p.value,digits=3),
                         "Kendall Tau=", format(kcorr_agevMDS1$estimate,digits=3),sep=" ")),
            col.main="red", xlim = c(0,115),col=myPlotColors[i])} else {plot(age_meta, pcoa_indivCohort$CA$u[,1],
                                                                             xlab = "Age",
-                                                                            ylab = "MDS1",
+                                                                            ylab = "MDS1",cex.main=1.4,
                                                                             main=c(paste(coh_l[[i]]),
                                                                                    paste("P-value=", format(kcorr_agevMDS1$p.value,digits=3),
                                                                                          "Kendall Tau=", format(kcorr_agevMDS1$estimate,digits=3),sep=" ")),
@@ -147,13 +161,13 @@ generatePlots = function(myFilePath, resultDirPath) {
     if(kcorr_agevMDS2$p.value < 0.05) 
     { plot(age_meta, pcoa_indivCohort$CA$u[,2],
            xlab = "Age",
-           ylab = "MDS2",
+           ylab = "MDS2",cex.main=1.4,
            main=c(paste(coh_l[[i]]),
                   paste("P-value=", format(kcorr_agevMDS2$p.value,digits=3),
                         "Kendall Tau=", format(kcorr_agevMDS2$estimate,digits=3),sep=" ")),
            col.main="red", xlim = c(0,115),col=myPlotColors[i])} else {plot(age_meta, pcoa_indivCohort$CA$u[,2],
                                                                             xlab = "Age",
-                                                                            ylab = "MDS2",
+                                                                            ylab = "MDS2",cex.main=1.4,
                                                                             main=c(paste(coh_l[[i]]),
                                                                                    paste("P-value=", format(kcorr_agevMDS2$p.value,digits=3),
                                                                                          "Kendall Tau=", format(kcorr_agevMDS2$estimate,digits=3),sep=" ")),
@@ -161,6 +175,7 @@ generatePlots = function(myFilePath, resultDirPath) {
     dev.off()
   }
   
+  write.table(permanovaResult_cohorts_matrix, paste0(resultDirPath,"PermanovaResults_perCohort.txt"), quote = F)
   
   #Step 3: Using the stat results to create p-value v p-value plots and Kendall p-value histograms
   ## p-value v p-value plots
@@ -259,15 +274,13 @@ generatePlots = function(myFilePath, resultDirPath) {
   
   #among the common taxa, pull the ones that have fdr adjusted pvals  < 0.05 for each cohort
   commonAndSignificant_list = list()
- 
   
   for(i in 1:11){
     commonAndSignificant_list[[i]] = commonGenus_narrow_list[[i]][as.numeric(commonGenus_narrow_list[[i]][,3]) < 0.05,,drop=F]
     
   }
-   names(commonAndSignificant_list) = coh_l
-  #Bifidobacterium: morgan, gloor, goodrich, agp
-  #baxter cohort: had 3 that were significant at 5% fdr threhold....
+  names(commonAndSignificant_list) = coh_l
+  
   cs_taxa_morgan = rownames(commonAndSignificant_list$Morgan)
   cs_taxa_baxter = rownames(commonAndSignificant_list$Baxter)
   cs_taxa_goodrich = rownames(commonAndSignificant_list$Goodrich)
@@ -279,31 +292,32 @@ generatePlots = function(myFilePath, resultDirPath) {
                          cs_taxa_agp, cs_taxa_nogbcn0)
   names(cs_taxa_allList) = c("Morgan", "Baxter", "Goodrich", "Gloor", "AGP", "NogBCN0")
   
+  intersect(cs_taxa_gloor[cs_taxa_gloor %in% cs_taxa_agp],cs_taxa_gloor[cs_taxa_gloor %in% cs_taxa_nogbcn0])
   #checking if taxa in baxter match w any other ones
-  cs_taxa_baxter %in% cs_taxa_goodrich # 0 matches
-  cs_taxa_baxter %in% cs_taxa_gloor # all 3 are in gloor
-  cs_taxa_baxter %in% cs_taxa_agp #all 3 are in agp
-  cs_taxa_baxter %in% cs_taxa_nogbcn0 # 0 matches
+  cs_taxa_baxter %in% cs_taxa_goodrich 
+  cs_taxa_baxter %in% cs_taxa_gloor 
+  cs_taxa_baxter %in% cs_taxa_agp 
+  cs_taxa_baxter %in% cs_taxa_nogbcn0 
   
   #goodrich
-  sum(cs_taxa_goodrich %in% cs_taxa_gloor) #6 matches
-  cs_taxa_goodrich[cs_taxa_goodrich %in% cs_taxa_gloor] #: Parabacteroides, Haemophilus, Haemophilus
-  cs_taxa_goodrich[cs_taxa_goodrich %in% cs_taxa_agp]  #3 matches 
-  sum(cs_taxa_goodrich %in% cs_taxa_nogbcn0) #1 match : Parabacteroides
+  sum(cs_taxa_goodrich %in% cs_taxa_gloor) 
+  cs_taxa_goodrich[cs_taxa_goodrich %in% cs_taxa_gloor] 
+  cs_taxa_goodrich[cs_taxa_goodrich %in% cs_taxa_agp]  
+  sum(cs_taxa_goodrich %in% cs_taxa_nogbcn0) 
   
   #gloor
-  sum(cs_taxa_gloor %in% cs_taxa_agp) #17 matches
-  sum(cs_taxa_gloor %in% cs_taxa_nogbcn0) #9 matches
+  sum(cs_taxa_gloor %in% cs_taxa_agp) 
+  sum(cs_taxa_gloor %in% cs_taxa_nogbcn0) 
   
   #agp
   sum(cs_taxa_agp %in% cs_taxa_nogbcn0) # 3 matches: "Bacteroides" "Howardella"  "Akkermansia"
   
-  "Bifidobacterium" %in% cs_taxa_morgan #true
-  "Bifidobacterium" %in% cs_taxa_baxter
-  "Bifidobacterium" %in% cs_taxa_goodrich #true
-  "Bifidobacterium" %in% cs_taxa_gloor #true
-  "Bifidobacterium" %in% cs_taxa_agp #true
-  "Bifidobacterium" %in% cs_taxa_nogbcn0
+  "Akkermansia" %in% cs_taxa_morgan 
+  "Akkermansia" %in% cs_taxa_baxter
+  "Akkermansia" %in% cs_taxa_goodrich #true
+  "Akkermansia" %in% cs_taxa_gloor #true
+  "Akkermansia" %in% cs_taxa_agp #true
+  "Akkermansia" %in% cs_taxa_nogbcn0
   
   # Plot pearson correlation (Bifidobacterium ~ Age) for each cohort
   pcorr_bifido = list()
@@ -311,13 +325,13 @@ generatePlots = function(myFilePath, resultDirPath) {
   fullSampleSize_perCohort = NULL
   
   for(i in 1:11){
-    zeroCounts_perCohort[i] = sum(lognormfiles_q2021[[i]][,-ncol(lognormfiles_q2021[[i]])]$Bifidobacterium==0) 
-    fullSampleSize_perCohort[i] = nrow(lognormfiles_q2021[[i]]) 
+    zeroCounts_perCohort[i] = sum(myLognormFiles[[i]][,-ncol(myLognormFiles[[i]])]$Bifidobacterium==0) 
+    fullSampleSize_perCohort[i] = nrow(myLognormFiles[[i]]) 
     pcorr_matrix = matrix(nrow=1, ncol=4)
     colnames(pcorr_matrix) = c("pval", "estimate", "ci_left", "ci_right")
     
-    pcorr_bifido_output =  cor.test(lognormfiles_q2021[[i]][,-ncol(lognormfiles_q2021[[i]])]$Bifidobacterium, 
-                                    lognormfiles_q2021[[i]][,ncol(lognormfiles_q2021[[i]])], method="pearson")
+    pcorr_bifido_output =  cor.test(myLognormFiles[[i]][,-ncol(myLognormFiles[[i]])]$Bifidobacterium, 
+                                    myLognormFiles[[i]][,ncol(myLognormFiles[[i]])], method="pearson")
     pcorr_matrix[,1] = pcorr_bifido_output$p.value
     pcorr_matrix[,2] = pcorr_bifido_output$estimate
     pcorr_matrix[,3] = pcorr_bifido_output$conf.int[1]
@@ -342,7 +356,7 @@ generatePlots = function(myFilePath, resultDirPath) {
     pcorr_bifido$AGP[c(3,4)],
     names = c("NogBCN0\n(n=156)", "NogSTK\n(n=84)", "Escobar\n(n=30)",
               "Zeller\nFrance\n(n=129)", "Zeller\nGermany\n(n=48)", "Goodrich\n(n=835)", "Baxter\n(n=490)", "Ross\n(n=63)",
-              "Gloor\n(n=803)", "Morgan\n(n=228)", "AGP\n(n=1,368)"),
+              "Gloor\n(n=803)", "Morgan\n(n=134)", "AGP\n(n=1,368)"),
     horizontal = T,
     ylim=c(-0.6, 0.6), 
     main="Bifidobacterium",
@@ -352,21 +366,76 @@ generatePlots = function(myFilePath, resultDirPath) {
     
   )
   text(-0.29,11, "*", cex = 2)
-  text(-0.42,10, "*", cex = 2)
   text(-0.61,9,"*", cex = 2)
   text(-0.23,6, "*", cex = 2)
   abline(v=0, lty=2)
   
   dev.off()  
   
+  ## Plot pearson correlation (Faecalibacterium ~ Age) for each cohort
+  pcorr_faecal = list()
+  zeroCounts_faecal = NULL
+  fullSampleSize_perCohort_faecal = NULL
+  
+  for(i in 1:11){
+    
+    zeroCounts_faecal[i] = sum(myLognormFiles[[i]][,-ncol(myLognormFiles[[i]])]$Faecalibacterium==0) 
+    fullSampleSize_perCohort_faecal[i] = nrow(myLognormFiles[[i]]) 
+    pcorr_matrix = matrix(nrow=1, ncol=4)
+    colnames(pcorr_matrix) = c("pval", "estimate", "ci_left", "ci_right")
+    
+    pcorr_faecal_output =  cor.test(myLognormFiles[[i]][,-ncol(myLognormFiles[[i]])]$Faecalibacterium, 
+                                    myLognormFiles[[i]][,ncol(myLognormFiles[[i]])], method="pearson")
+    pcorr_matrix[,1] = pcorr_faecal_output$p.value
+    pcorr_matrix[,2] = pcorr_faecal_output$estimate
+    pcorr_matrix[,3] = pcorr_faecal_output$conf.int[1]
+    pcorr_matrix[,4] = pcorr_faecal_output$conf.int[2]
+    
+    pcorr_faecal[[i]] = pcorr_matrix
+    
+  }
+  
+  names(pcorr_faecal) = coh_l
+  pdf(paste0(resultDirPath, "PearsonCorrPlot_Faecalibacterium.pdf"),onefile = T,height=10,width=10) 
+  boxplot(
+    pcorr_faecal$Nog_BCN0[c(3,4)],
+    pcorr_faecal$Nog_STK[c(3,4)],
+    pcorr_faecal$Escobar[c(3,4)],
+    pcorr_faecal$ZellerFrance[c(3,4)],
+    pcorr_faecal$ZellerGermany[c(3,4)],
+    pcorr_faecal$Goodrich[c(3,4)],
+    pcorr_faecal$Baxter[c(3,4)],
+    pcorr_faecal$Ross[c(3,4)],
+    pcorr_faecal$Gloor[c(3,4)],
+    pcorr_faecal$Morgan[c(3,4)],
+    pcorr_faecal$AGP[c(3,4)],
+    names = c("NogBCN0\n(n=156)", "NogSTK\n(n=84)", "Escobar\n(n=30)",
+              "Zeller\nFrance\n(n=129)", "Zeller\nGermany\n(n=48)", "Goodrich\n(n=835)", "Baxter\n(n=490)", "Ross\n(n=63)",
+              "Gloor\n(n=803)", "Morgan\n(n=134)", "AGP\n(n=1,368)"),
+    horizontal = T,
+    ylim=c(-0.6, 0.6), 
+    main="Faecalibacterium",
+    xlab="Pearson R Value
+  Age ~ OTU Count", 
+    las=2, font =2, cex.axis=0.6
+    
+  )
+  text(-0.18,11, "*", cex = 2)
+  text(-0.24,9, "*", cex = 2)
+  text(-0.25,7,"*", cex = 2)
+  abline(v=0, lty=2)
+  
+  dev.off()
+  
   # Comparing correlation trends across all cohorts
   
   ## Pulling enrichment (positive/negative correlation) for taxa common in all cohorts
-   enrichment_list = list()
+  enrichment_list = list()
   as.data.frame(enrichment_list)
   
+  
   for(i in 1:11){
-    enrichment_commontaxa = matrix(nrow=70, ncol=2) 
+    enrichment_commontaxa = matrix(nrow=length(commonGenusNames_allCohorts_genera), ncol=2) 
     common_stats_matrix= stats_fdrs_list[[i]][rownames(stats_fdrs_list[[i]]) %in% commonGenusNames_allCohorts_genera,]
     enrichment_commontaxa[,1] =rownames(common_stats_matrix)
     enrichment_commontaxa[,2] = common_stats_matrix[,4] 
@@ -382,12 +451,12 @@ generatePlots = function(myFilePath, resultDirPath) {
   rownames(all_enrichment_df) = commonGenusNames_allCohorts_genera
   
   ## Counting how many taxa trend across all 11 cohorts
-  total_en_sum = matrix(nrow=70, ncol=2)
+  total_en_sum = matrix(nrow=length(commonGenusNames_allCohorts_genera), ncol=2)
   for(i in 1:nrow(all_enrichment_df))
   {
     total_en_sum[i,2] = sum(all_enrichment_df[i,]== "negative") ==11
     total_en_sum[i,1] = sum(all_enrichment_df[i,]== "positive") ==11
   }
-  rownames(total_en_sum) = reduced_list_narrow
+  rownames(total_en_sum) = commonGenusNames_allCohorts_genera
   
 }

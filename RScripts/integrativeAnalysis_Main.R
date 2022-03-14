@@ -22,10 +22,6 @@ generatePlots = function(myFilePath, resultDirPath) {
   #extracts only stool samples from Morgan cohort for subsequent analysis
   raw_q2021_files[[1]] = subset(raw_q2021_files[[1]], raw_q2021_files[[1]]$stool==1)
   
-  morgan_genera_check = raw_q2021_files[[1]][,grep("g__",colnames(raw_q2021_files[[1]]))]
-  sum(rowSums(morgan_genera_check) == 0)
-  sum(colSums(morgan_genera_check) == 0)
-  
   #Step 2: lognormalize counts for each dataset, perform stats test (taxa ~ age), permanova test, alpha diversity analysis at the genus level
   #input: counts table for each dataset (ie each element from the list)
   #output: stats calculations (non-parametric and parametric), permanova results per cohort, alpha diversity results and plots (richness and shannon diversity)

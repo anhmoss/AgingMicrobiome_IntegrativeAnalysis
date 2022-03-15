@@ -320,6 +320,12 @@ generatePlots = function(myFilePath, resultDirPath) {
   zeroCounts_perCohort = NULL
   fullSampleSize_perCohort = NULL
   
+#stacked barplot: Orange=fullSampleSize, Blue = total Zero Counts of Bifidobacterium
+  barplot(fullSampleSize_perCohort, ylim = c(0,1375), col="orange", names=coh_l)
+  barplot(zeroCounts_perCohort, 
+          ylim = c(0,1375), col="blue",
+          names=coh_l, add=TRUE)
+  
   for(i in 1:11){
     zeroCounts_perCohort[i] = sum(myLognormFiles[[i]][,-ncol(myLognormFiles[[i]])]$Bifidobacterium==0) 
     fullSampleSize_perCohort[i] = nrow(myLognormFiles[[i]]) 
@@ -335,7 +341,7 @@ generatePlots = function(myFilePath, resultDirPath) {
     
     pcorr_bifido[[i]] = pcorr_matrix
     
-  }   
+  }
   names(pcorr_bifido) = coh_l
   pdf(paste0(resultDirPath, "PearsonCorrPlot_Bifidobacterium.pdf"),onefile = T,height=10,width=10) 
   boxplot(
@@ -467,5 +473,9 @@ generatePlots = function(myFilePath, resultDirPath) {
   rownames(total_for10Cohorts) = commonGenusNames_allCohorts_genera
   sum(total_for10Cohorts[,1]=="TRUE")
   sum(total_for10Cohorts[,2]=="TRUE")
+  
+    #binomial test
+  binom.test(11, 11, 0.5)$p.value * 65 
+  binom.test(10, 11, 0.5)$p.value * 65
   
 }

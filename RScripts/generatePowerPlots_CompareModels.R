@@ -606,4 +606,119 @@ generatePowerPlots_CompareModels = function(myFilePath,resultDirPath) {
                                 plot(annotate_figure(fullsets_comparison_KCorr, bottom="Sample size", 
                                                      left="Number of Significant Taxa"))
                                 dev.off()
+  
+  
+  ## Supp Figure 6: Power Plots with LM results
+  powerPlot_agp_LM = ggplot(lognorm_agp_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_agp_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("AGP (n=1,368)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits=c(-6,260),breaks= seq(0, 260, by=20)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11), axis.text=element_text(size=6))
+
+powerPlot_ross_LM = ggplot(lognorm_ross_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_ross_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Ross (n=63)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_nogstk_LM = ggplot(lognorm_nogstk_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_nogstk_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("NogSTK (n=84)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_nogbcn0_LM = ggplot(lognorm_nogbcn0_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_nogbcn0_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("NogBCN0 (n=156)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35.5), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+
+powerPlot_goodrich_LM = ggplot(lognorm_goodrich_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_goodrich_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Goodrich (n=835)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits=c(-6,35),breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11), axis.text=element_text(size=6))
+
+powerPlot_gloor_LM = ggplot(lognorm_gloor_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_gloor_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Gloor (n=803)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(breaks= seq(0, 260, by=20)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11), axis.text=element_text(size=6))
+
+powerPlot_escobar_LM = ggplot(lognorm_escobar_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_escobar_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Escobar (n=30)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) +
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank(),
+        plot.title = element_text(size=11)) 
+
+powerPlot_baxter_LM = ggplot(lognorm_baxter_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_baxter_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Baxter (n=490)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) +
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank(),
+        plot.title = element_text(size=11)) 
+
+powerPlot_zellergermany_LM = ggplot(lognorm_zellergermany_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_zellergermany_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("ZellerGermany (n=48)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_zellerfrance_LM = ggplot(lognorm_zellerfrance_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_zellerfrance_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("ZellerFrance (n=129)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+powerPlot_morgan_LM = ggplot(lognorm_morgan_powerMatrix_LM, aes(x=Subsamplesize, y=Mean)) +
+  geom_point(data = lognorm_morgan_powerMatrix_LM, aes(x= Subsamplesize, y = Mean)) +
+  geom_errorbar(aes(ymin = Mean - SD, 
+                    ymax = Mean + SD)) +
+  ggtitle("Morgan (n=134)") +
+  scale_x_continuous(trans = 'log10') + scale_y_continuous(limits= c(-6,35), breaks= seq(0, 260, by=5)) + 
+  theme(axis.title.x=element_blank(),axis.title.y=element_blank(),
+        plot.title = element_text(size=11))
+
+#combine all plots
+fullsets_comparison_LM = ggarrange(powerPlot_nogbcn0_LM,powerPlot_nogstk_LM, powerPlot_escobar_LM,
+                                      plot.new(), plot.new(), 
+                                      powerPlot_zellerfrance_LM, powerPlot_zellergermany_LM,powerPlot_goodrich_LM, powerPlot_baxter_LM,powerPlot_ross_LM, 
+                                      powerPlot_gloor_LM,powerPlot_morgan_LM, powerPlot_agp_LM, plot.new(), plot.new(), 
+                                      labels = c(LETTERS[1:3], "", "", LETTERS[4:11]),
+                                      nrow = 3, ncol = 5) 
+pdf(paste0(resultDirPath, "PowerPlots_LM.pdf"), onefile = T, width = 10)
+plot(annotate_figure(fullsets_comparison_LM, bottom="Sample size", 
+                     left="Number of Significant Taxa"))
+dev.off()
+  
 }

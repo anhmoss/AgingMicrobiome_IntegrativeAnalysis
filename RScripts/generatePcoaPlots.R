@@ -82,9 +82,103 @@ legend("topleft",
 
 dev.off() 
 
- # mytest = generatePcoaPlots(myFilePath = "/Users/anhil/Desktop/q2021_filepaths.txt",
- #                            outputPath = "/Users/anhil/Desktop/figures_march09/")
+# boxplots for MDS1 and MDS2 with All Sample PCOA
+generateMDSBoxplots_function = function(pcoaResult, mds, cohort){
+  mds_output= pcoaResult$CA$u[,mds][lognorm_allCounts$Study==cohort]
+  
+  return(mds_output)
+}
 
+cohort_names = coh_l
+mds1_per_cohort = sapply(cohort_names, generateMDSBoxplots_function,
+                           pcoaResult= lognorm_allCounts_q2021_pcoa,
+                           mds=1)
+mds2_per_cohort = sapply(cohort_names, generateMDSBoxplots_function,
+                         pcoaResult= lognorm_allCounts_q2021_pcoa,
+                         mds=2)
+
+myBoxplotColors = c("olivedrab", "red", "limegreen","cyan", "darkgreen",
+                    "purple", "lightblue", "darkred", "orange", "darkgrey", "plum")
+##boxplot : rearranged in order of asc sample size
+pdf(paste0(outputPath, "AllSamples_MDS1_Boxplot.pdf"),onefile = T, width=14)
+boxplot(
+  mds1_per_cohort$Nog_BCN0,
+  mds1_per_cohort$Nog_STK,
+  mds1_per_cohort$Escobar,
+  mds1_per_cohort$ZellerFrance,
+  mds1_per_cohort$ZellerGermany,
+  mds1_per_cohort$Goodrich,
+  mds1_per_cohort$Baxter,
+  mds1_per_cohort$Ross,
+  mds1_per_cohort$Gloor,
+  mds1_per_cohort$Morgan,
+  mds1_per_cohort$AGP,
+  cex.axis=0.8,
+  names=c("NogBCN0", "NogSTK", "Escobar", "ZellerFrance", "ZellerGermany",
+          "Goodrich", "Baxter","Ross","Gloor", "Morgan", "AGP"),
+  main= "MDS1 per Cohort",
+  xlab="Cohort",
+  ylab="MDS1",
+  border = myBoxplotColors)
+
+mds1_allcohorts_list = list (
+  "NogBCN0" = mds1_per_cohort$Nog_BCN0,
+  "NogSTK" = mds1_per_cohort$Nog_STK,
+  "Escobar" = mds1_per_cohort$Escobar,
+  "Zeller France" = mds1_per_cohort$ZellerFrance,
+  "Zeller Germany" = mds1_per_cohort$ZellerGermany,
+  "Goodrich" = mds1_per_cohort$Goodrich,
+  "Baxter" = mds1_per_cohort$Baxter,
+  "Ross" = mds1_per_cohort$Ross,
+  "Gloor" = mds1_per_cohort$Gloor,
+  "Morgan" = mds1_per_cohort$Morgan,
+  "AGP" = mds1_per_cohort$AGP)
+
+stripchart(mds1_allcohorts_list, method = "jitter", 
+           pch = 20, vertical= TRUE, add = TRUE, cex=1, col=myBoxplotColors)
+
+dev.off()
+
+pdf(paste0(outputPath, "AllSamples_MDS2_Boxplot.pdf"),onefile = T, width=14)
+boxplot(
+  mds2_per_cohort$Nog_BCN0,
+  mds2_per_cohort$Nog_STK,
+  mds2_per_cohort$Escobar,
+  mds2_per_cohort$ZellerFrance,
+  mds2_per_cohort$ZellerGermany,
+  mds2_per_cohort$Goodrich,
+  mds2_per_cohort$Baxter,
+  mds2_per_cohort$Ross,
+  mds2_per_cohort$Gloor,
+  mds2_per_cohort$Morgan,
+  mds2_per_cohort$AGP,
+  cex.axis=0.8,
+  names=c("NogBCN0", "NogSTK", "Escobar", "ZellerFrance", "ZellerGermany",
+          "Goodrich", "Baxter","Ross","Gloor", "Morgan", "AGP"),
+  main= "MDS2 per Cohort",
+  xlab="Cohort",
+  ylab="MDS2",
+  border = myBoxplotColors)
+
+mds2_allcohorts_list = list (
+  "NogBCN0" = mds2_per_cohort$Nog_BCN0,
+  "NogSTK" = mds2_per_cohort$Nog_STK,
+  "Escobar" = mds2_per_cohort$Escobar,
+  "Zeller France" = mds2_per_cohort$ZellerFrance,
+  "Zeller Germany" = mds2_per_cohort$ZellerGermany,
+  "Goodrich" = mds2_per_cohort$Goodrich,
+  "Baxter" = mds2_per_cohort$Baxter,
+  "Ross" = mds2_per_cohort$Ross,
+  "Gloor" = mds2_per_cohort$Gloor,
+  "Morgan" = mds2_per_cohort$Morgan,
+  "AGP" = mds2_per_cohort$AGP)
+
+stripchart(mds2_allcohorts_list, method = "jitter", 
+           pch = 20, vertical= TRUE, add = TRUE, cex=1, col=myBoxplotColors)
+
+dev.off()
+
+  
 ## For subgroups(Younger, Middle, Full Range)
 
 raw_merge_youngerRange = full_join(raw_q2021_files$NogBCN0, raw_q2021_files$NogSTK)

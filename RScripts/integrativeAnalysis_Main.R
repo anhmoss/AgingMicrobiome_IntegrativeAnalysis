@@ -63,6 +63,12 @@ generatePlots = function(myFilePath, resultDirPath) {
     
     lm_output = stat_simpleLM_function(counts=lognorm_file, age = age_meta)
     lm_results_list[[i]] = lm_output
+
+    #plot histograms for age distribution
+      pdf(paste0(resultDirPath, coh_l[i], "_AgeDistribution_Histogram.pdf"),onefile = T,height=10,width=10)
+      hist(age_fullset, breaks = 10, xlim = c(0,120),col = "mediumspringgreen",
+         main = coh_l[i], xlab = "Age (Years)", cex.main=1.5, cex.lab=1.5) 
+      dev.off()  
     
     #rarefy raw counts and alpha div and richness analysis
     rarefied_1000 = rrarefy(taxa_table,1000)
@@ -71,8 +77,7 @@ generatePlots = function(myFilePath, resultDirPath) {
     richness_result = specnumber(rarefied_1000)
     richness_result[which(rowSums(rarefied_1000)<1000)] =NA
     richness_list[[i]] = richness_result
-    
-    
+
     shannondiv_result = diversity(rarefied_1000,index = "shannon", MARGIN = 1, base = exp(1))
     shannondiv_result[which(rowSums(rarefied_1000)<1000)] =NA
     shannondiv_list[[i]] = shannondiv_result
